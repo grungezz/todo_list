@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 style="font-weight: bold; margin: 0;">TODO list</h1>
+    <a href="{% url 'tasks:task-create' %}" class="btn btn-dark link-to-page">Add Task</a>
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    <ul style="list-style-type: none; padding: 0;">
+      {% for task in tasks %}
+        <li style="list-style-type: none; margin-bottom: 10px; display: flex; align-items: center;">
+          <div style="flex: 1;">
+            <strong style="font-size: 1.2em;">{{ task.content }}</strong>
+            <span style="color: {% if task.is_done %}green{% else %}red{% endif %}; font-weight: bold;">
+              {% if task.is_done %}Done{% else %}Not Done{% endif %}
+            </span>
+            <br>
+            Created: {{ task.created_date }}
+            {% if task.deadline_date %}
+              <br>
+              <span style="color: darkred;">Deadline: {{ task.deadline_date }}</span>
+            {% endif %}
+            <br>
+            Tags: {% for tag in task.tags.all %}#{{ tag.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+          </div>
+          <div style="margin-left: 10px;">
+            <button type="submit" name="task_id" value="{{ task.id }}" class="{% if task.is_done %}btn btn-secondary{% else %}btn btn-success{% endif %}">
+              {% if task.is_done %}Undo{% else %}Complete{% endif %}
+            </button>
+          </div>
+        </li>
+        <div style="margin-left: 20px;">
+          <a href="{% url 'tasks:task-update' task.id %}" class="btn btn-dark">Update</a>
+          <a href="{% url 'tasks:task-delete' task.id %}" class="btn btn-dark">Delete</a>
+        </div>
+        <hr>
+      {% endfor %}
+    </ul>
+  </form>
+{% endblock %}

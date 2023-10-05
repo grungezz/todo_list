@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 style="font-weight: bold; margin: 0;">Confirm Deletion</h1>
+    <a href="{% url 'tasks:task-list' %}" class="btn btn-dark link-to-page">Back to Tasks</a>
+  </div>
+  <form method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete the task "{{ task.content }}"?</p>
+    <button type="submit" class="btn btn-danger">Delete</button>
+  </form>
+{% endblock %}
