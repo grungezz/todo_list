@@ -8,9 +8,9 @@
     {% csrf_token %}
     <ul style="list-style-type: none; padding: 0;">
       {% for task in tasks %}
-        <li style="list-style-type: none; margin-bottom: 10px; display: flex; align-items: center;">
+        <li style="list-style-type: none; margin-bottom: 5px; display: flex; align-items: center;">
           <div style="flex: 1;">
-            <strong style="font-size: 1.2em;">{{ task.content }}</strong>
+            <strong style="font-size: 1em; margin: 0;">{{ task.content }}</strong>
             <span style="color: {% if task.is_done %}green{% else %}red{% endif %}; font-weight: bold;">
               {% if task.is_done %}Done{% else %}Not Done{% endif %}
             </span>
@@ -28,11 +28,11 @@
               {% if task.is_done %}Undo{% else %}Complete{% endif %}
             </button>
           </div>
+          <div style="margin-left: 10px;">
+            <a href="{% url 'tasks:task-update' task.id %}" class="btn btn-dark">Update</a>
+            <a href="{% url 'tasks:task-delete' task.id %}" class="btn btn-dark">Delete</a>
+          </div>
         </li>
-        <div style="margin-left: 20px;">
-          <a href="{% url 'tasks:task-update' task.id %}" class="btn btn-dark">Update</a>
-          <a href="{% url 'tasks:task-delete' task.id %}" class="btn btn-dark">Delete</a>
-        </div>
         <hr>
       {% endfor %}
     </ul>

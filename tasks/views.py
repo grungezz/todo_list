@@ -9,7 +9,7 @@ from tasks.models import Task, Tag
 class TaskListView(generic.ListView):
     model = Task
     context_object_name = 'tasks'
-    paginate_by = 3
+    paginate_by = 5
 
     @staticmethod
     def post(request, *args, **kwargs):
